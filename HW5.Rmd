@@ -1,0 +1,28 @@
+---
+title: "HW5 - California Wind Turbines"
+author: "Esraa Saleh"
+output: html_document
+---
+
+```{r, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+library(maps)
+library(mapdata)
+
+states <- map_data("state")
+california <- states %>% filter(region == "california")
+
+load("wind_turbines.rda")
+wind_ca <- wind_turbines %>% filter(t_state == "CA")
+
+ggplot() +
+  geom_polygon(data = california,
+               aes(x = long, y = lat, group = group),
+               fill = "lightblue",
+               color = "white") +
+  geom_point(data = wind_ca,
+             aes(x = xlong, y = ylat),
+             color = "red",
+             size = 1.5) +
+  coord_fixed(1.3)
